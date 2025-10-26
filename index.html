@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نتائج مدرسة أبوبكر الرازي - 1446 هـ</title>
+  <title>نتائج مدرسة أبوبكر الرازي -الفصل الأول- 1447 هـ</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -12,6 +12,9 @@
       padding: 30px;
       margin: 0;
       text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     h1 {
@@ -112,6 +115,30 @@
     .subject-score {
       font-weight: bold;
       color: #6c5ce7;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px;
+    }
+
+    .low-score {
+      background-color: #ff7675;
+      color: white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      animation: pulse-red 2s infinite;
+    }
+
+    @keyframes pulse-red {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 118, 117, 0.7); }
+      50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 118, 117, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 118, 117, 0); }
     }
 
     #result p {
@@ -161,6 +188,29 @@
     .site-link a:hover {
       text-decoration: underline;
     }
+    
+    .visitor-counter {
+      margin-top: 30px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      display: inline-block;
+      font-weight: bold;
+      color: #2d3436;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .footer {
+      margin-top: auto;
+      padding: 20px;
+    }
   </style>
 </head>
 <body>
@@ -185,7 +235,27 @@
 
   <div id="result"></div>
 
+  <div class="footer">
+    <div class="visitor-counter">
+      👁️ عدد الزوار: <span id="visitorCount">0</span>
+    </div>
+  </div>
+
   <script>
+    // عداد الزوار باستخدام localStorage
+    function updateVisitorCount() {
+      let count = localStorage.getItem('visitorCount');
+      if (count === null) {
+        count = 0;
+      }
+      count = parseInt(count) + 1;
+      localStorage.setItem('visitorCount', count);
+      document.getElementById('visitorCount').textContent = count;
+    }
+
+    // تحديث العداد عند تحميل الصفحة
+    updateVisitorCount();
+
     function getColorByRating(rating) {
       switch (rating) {
         case "ممتاز":
@@ -200,9 +270,8 @@
           return "#dfe6e9"; // رمادي افتراضي
       }
     }
-
-    const students = [
-       {
+        const students = [
+      {
         name: "طه عبدالله محمد شوعي صوفان",
         number: "1073",
         grade: "الاول ب",
@@ -18081,7 +18150,7 @@
         average: "66.86%",
         rating: "جيد",
         note: "مستوى جيد ونتمنى بذل المزيد من الجهود لتحقيق مستوى أفضل."
-                }
+         }
     ];
 
     function getSubjectsToDisplay(classNumber) {
@@ -18125,10 +18194,12 @@
       
       let subjectsHTML = '';
       subjectsToDisplay.forEach(subject => {
+        const score = student[subject];
+        const scoreClass = score < 25 ? 'low-score' : 'subject-score';
         subjectsHTML += `
           <div class="subject-row">
             <span class="subject-name">${getSubjectName(subject)}</span>
-            <span class="subject-score">${student[subject]}</span>
+            <span class="${scoreClass}">${score}</span>
           </div>
         `;
       });
@@ -18158,7 +18229,7 @@
           
           <div class="site-link">
             <strong>موقع النتائج:</strong> 
-            <a href="https://binothmanz.github.io/razi1/" target="_blank">https://binothmanz.github.io/razi1/</a>
+            <a href="https://binothmanz.github.io/1447-1/" target="_blank">https://binothmanz.github.io/razi1/</a>
           </div>
         </div>
       `;
@@ -18208,7 +18279,7 @@
         .join('\n');
 
       // إضافة رابط الموقع في نهاية الرسالة
-      text += '\n\n🌐 موقع النتائج:\nhttps://binothmanz.github.io/razi1/';
+      text += '\n\n🌐 موقع النتائج:\nhttps://binothmanz.github.io/1447-1/';
 
       const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
       window.open(whatsappUrl, '_blank');
